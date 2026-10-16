@@ -204,6 +204,28 @@
 
     renderGrid('small');
 </script>
+function sendOrderToWhatsApp(event) {
+    event.preventDefault();
+
+    let customerName = document.getElementById('customerName').value;
+    let customerPhone = document.getElementById('customerPhone').value;
+    let customerAddress = document.getElementById('customerAddress').value;
+    let productQty = document.getElementById('displayQty').innerText;
+    let totalPrice = document.getElementById('displayTotal').innerText;
+
+    // আপনার আসল WhatsApp নম্বরটি এখানে বসাবেন (যেমন: 8801XXXXXXXXX)
+    let myWhatsAppNumber = "8801603538204"; 
+
+    let message = `নতুন অর্ডার এসেছে! 🛒%0A%0A` +
+                  `👤 নাম: ${customerName}%0A` +
+                  `📞 ফোন: ${customerPhone}%0A` +
+                  `📍 ঠিকানা: ${customerAddress}%0A` +
+                  `📦 পরিমাণ: ${productQty} পিস%0A` +
+                  `💰 মোট দাম: ৳${totalPrice}`;
+
+    let url = `https://wa.me/${myWhatsAppNumber}?text=${message}`;
+    window.open(url, '_blank');
+}
 
 </body>
 </html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ক্যানভাস বাড়ি - পাইকারি ও খুচরা ক্যানভাস শপ</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7f6; margin: 0; padding: 15px; color: #333; }
+        .container { max-width: 650px; margin: auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        h2 { color: #2c3e50; text-align: center; margin-bottom: 5px; }
+        .desc { font-size: 13px; color: #666; text-align: center; margin-bottom: 15px; }
+        
+        /* নোটিশ বা ব্যানারের মতো হাইলাইট */
+        .notice-banner { background: #e8f8f5; border: 1px dashed #27ae60; padding: 10px; border-radius: 8px; text-align: center; font-size: 13px; color: #16a085; margin-bottom: 15px; font-weight: bold; }
+
+        .section-title { font-weight: bold; margin-top: 20px; margin-bottom: 10px; display: block; color: #2980b9; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+        
+        .category-tabs { display: flex; gap: 5px; margin-bottom: 15px; }
+        .tab-btn { flex: 1; padding: 8px; text-align: center; background: #e0e0e0; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; }
+        .tab-btn.active { background: #27ae60; color: white; }
+
+        .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-height: 280px; overflow-y: auto; padding: 5px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 15px; }
+        .option-card { border: 2px solid #ddd; padding: 10px; border-radius: 8px; text-align: center; cursor: pointer; transition: 0.2s; background: #fafafa; }
+        .option-card.selected { border-color: #27ae60; background: #e8f8f5; font-weight: bold; }
+        .option-card small { display: block; color: #e67e22; font-weight: bold; margin-top: 4px; }
+
+        .price-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 13px; }
+        .price-table th, .price-table td { border: 1px solid #ddd; padding: 6px; text-align: center; }
+        .price-table th { background: #f8f9fa; }
+        
+        .summary-box { background: #f9f9f9; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #27ae60; font-size: 14px; }
+        input, textarea { width: 100%; padding: 10px; margin-bottom: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        button.submit-btn { background: #27ae60; color: white; border: none; width: 100%; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; }
+        button.submit-btn:hover { background: #219653; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🎨 ক্যানভাস বাড়ি</h2>
+    <p class="desc">সরাসরি কারখানা থেকে প্রিমিয়াম সুতির ক্যানভাস সংগ্রহ করুন।</p>
+
+    <!-- আকর্ষণীয় নোটিশ যা দেখে কাস্টমার খুচরা ও পাইকারি রেট বুঝতে পারবে -->
+    <div class="notice-banner">
+        🔥 বিশেষ অফার: ১-১০ পিস পর্যন্ত খুচরা রেট এবং ১২ পিস বা বেশি নিলে পাবেন বিশেষ পাইকারি রেট!
+    </div>
+
+    <form action="/order" method="POST">
+        <span class="section-title">১. ক্যানভাসের সাইজ নির্বাচন করুন:</span>
+        <div class="category-tabs">
+            <button type="button" class="tab-btn active" onclick="switchCategory('small', this)">ছোট সাইজ</button>
+            <button type="button" class="tab-btn" onclick="switchCategory('medium', this)">মাঝারি সাইজ</button>
+            <button type="button" class="tab-btn" onclick="switchCategory('large', this)">বড় সাইজ</button>
+        </div>
+
+        <div class="options-grid" id="productGrid"></div>
+
+        <input type="hidden" id="selectedProduct" name="product" value="4/4">
+        <input type="hidden" id="retailPriceInput" value="25">
+        <input type="hidden" id="wholesalePriceInput" value="15">
+        <input type="hidden" id="finalUnitPriceInput" name="calculated_unit_price" value="25">
+
+        <span class="section-title">২. পরিমাণ (পিস) লিখুন:</span>
+        <input type="number" id="quantity" name="quantity" value="1" min="1" oninput="calculateTotal()">
+
+        <!-- মূল্য তালিকা টেবিল -->
+        <span class="section-title">মূল্য নীতি ও চার্ট:</span>
+        <table class="price-table">
+            <tr><th>পরিমাণ</th><th>মূলধনের হার</th></tr>
+            <tr><td>১ - ১১ পিস</td><td><b>খুচরা রেট</b> প্রযোজ্য</td></tr>
+            <tr><td>১২+ পিস (পাইকারি)</td><td><b>সরাসরি পাইকারি রেট</b> প্রযোজ্য</td></tr>
+        </table>
+
+        <!-- হিসাব সামারি -->
+        <div class="summary-box">
+            <p>সিলেক্টেড সাইজ: <b id="displayProduct">4/4 ইঞ্চি</b></p>
+            <p>পরিমাণ: <b id="displayQty">1</b> পিস <span id="rateTypeTag" style="color: #e67e22; font-size: 12px; margin-left: 5px;">(খুচরা মূল্য)</span></p>
+            <p>প্রতি পিস দাম: ৳<b id="displayUnitPrice">25</b></p>
+            <p style="font-size: 16px; color: #27ae60; margin-top: 5px;">সর্বমোট দাম: ৳<b id="displayTotal">25</b></p>
+            <input type="hidden" id="totalPriceInput" name="total_price" value="25">
+        </div>
+
+        <span class="section-title">৩. আপনার তথ্য দিন:</span>
+        <input type="text" name="name" placeholder="আপনার নাম *" required>
+        <input type="tel" name="phone" placeholder="মোবাইল নম্বর *" required>
+        <textarea name="address" placeholder="পূর্ণাঙ্গ ঠিকানা (বাসা নং, রোড, থানা, জেলা) *" rows="3" required></textarea>
+
+        <button type="submit" class="submit-btn">অর্ডার কনফার্ম করুন (ক্যাশ অন ডেলিভারি)</button>
+    </form>
+</div>
+
+<script>
+    // আপনার দেওয়া নতুন খুচরা এবং পাইকারি রেটের নিখুঁত তালিকা
+    const categories = {
+        small: [
+            { name: "4/4", retail: 25, wholesale: 15 },
+            { name: "5/5", retail: 30, wholesale: 20 },
+            { name: "6/6", retail: 30, wholesale: 20 },
+            { name: "6/8", retail: 35, wholesale: 25 },
+            { name: "4/6", retail: 30, wholesale: 20 },
+            { name: "6/10", retail: 35, wholesale: 30 },
+            { name: "6/12", retail: 40, wholesale: 30 },
+            { name: "8/8", retail: 40, wholesale: 30 },
+            { name: "8/10", retail: 45, wholesale: 35 },
+            { name: "8/12", retail: 45, wholesale: 35 }
+        ],
+        medium: [
+            { name: "8/16", retail: 50, wholesale: 40 },
+            { name: "10/10", retail: 45, wholesale: 40 },
+            { name: "10/12", retail: 50, wholesale: 40 },
+            { name: "10/14", retail: 60, wholesale: 45 },
+            { name: "12/12", retail: 60, wholesale: 45 },
+            { name: "12/14", retail: 60, wholesale: 45 },
+            { name: "12/16", retail: 70, wholesale: 55 },
+            { name: "12/18", retail: 70, wholesale: 60 },
+            { name: "12/20", retail: 80, wholesale: 70 },
+            { name: "12/24", retail: 100, wholesale: 80 }
+        ],
+        large: [
+            { name: "16/20", retail: 90, wholesale: 75 },
+            { name: "16/24", retail: 120, wholesale: 100 },
+            { name: "18/24", retail: 140, wholesale: 110 },
+            { name: "20/24", retail: 150, wholesale: 120 },
+            { name: "20/30", retail: 180, wholesale: 140 },
+            { name: "24/30", retail: 200, wholesale: 160 },
+            { name: "24/36", retail: 220, wholesale: 180 },
+            { name: "30/36", retail: 260, wholesale: 200 }
+        ]
+    };
+
+    let currentRetail = 25;
+    let currentWholesale = 15;
+    let currentProductName = "4/4";
+
+    function renderGrid(catKey) {
+        const grid = document.getElementById('productGrid');
+        grid.innerHTML = '';
+        categories[catKey].forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = `option-card ${index === 0 && catKey === 'small' ? 'selected' : ''}`;
+            div.innerHTML = `<b>${item.name} ইঞ্চি</b><small>খুচরা: ৳${item.retail} | পাইকারি: ৳${item.wholesale}</small>`;
+            div.onclick = () => selectProduct(item.name, item.retail, item.wholesale, div);
+            grid.appendChild(div);
+        });
+    }
+
+    function switchCategory(catKey, btn) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderGrid(catKey);
+        
+        const firstItem = categories[catKey][0];
+        currentProductName = firstItem.name;
+        currentRetail = firstItem.retail;
+        currentWholesale = firstItem.wholesale;
+        
+        document.getElementById('selectedProduct').value = currentProductName;
+        document.getElementById('retailPriceInput').value = currentRetail;
+        document.getElementById('wholesalePriceInput').value = currentWholesale;
+        
+        const firstCard = document.querySelector('.option-card');
+        if(firstCard) firstCard.classList.add('selected');
+        calculateTotal();
+    }
+
+    function selectProduct(name, retail, wholesale, element) {
+        document.querySelectorAll('.option-card').forEach(card => card.classList.remove('selected'));
+        element.classList.add('selected');
+        
+        currentProductName = name;
+        currentRetail = retail;
+        currentWholesale = wholesale;
+        
+        document.getElementById('selectedProduct').value = name;
+        document.getElementById('retailPriceInput').value = retail;
+        document.getElementById('wholesalePriceInput').value = wholesale;
+        calculateTotal();
+    }
+
+    function calculateTotal() {
+        let qty = parseInt(document.getElementById('quantity').value) || 1;
+        let unitPrice = currentRetail;
+        let rateTypeText = "(খুচরা মূল্য)";
+
+        // লজিক: ১২ পিস বা তার বেশি নিলে সরাসরি ফিক্সড পাইকারি রেট প্রযোজ্য হবে
+        if (qty >= 12) {
+            unitPrice = currentWholesale;
+            rateTypeText = "(বিশেষ পাইকারি মূল্য)";
+        } else {
+            unitPrice = currentRetail;
+            rateTypeText = "(খুচরা মূল্য)";
+        }
+
+        let total = qty * unitPrice;
+
+        document.getElementById('displayProduct').innerText = currentProductName + " ইঞ্চি";
+        document.getElementById('displayQty').innerText = qty;
+        document.getElementById('rateTypeTag').innerText = rateTypeText;
+        document.getElementById('displayUnitPrice').innerText = unitPrice;
+        document.getElementById('displayTotal').innerText = total;
+        document.getElementById('finalUnitPriceInput').value = unitPrice;
+        document.getElementById('totalPriceInput').value = total;
+    }
+
+    renderGrid('small');
+</script>
+
+</body>
+</html>
+

@@ -133,7 +133,7 @@
             totalPcs += qty;
         });
 
-        let isWholesale = (totalPcs >= 10);
+        let isWholesale = (totalPcs >= 50);
         let totalPrice = 0;
 
         // এবার দাম হিসাব করা
@@ -156,10 +156,10 @@
 
         let rateTag = document.getElementById('rateTypeTag');
         if (isWholesale) {
-            rateTag.innerText = "🔥 পাইকারি রেট (১০+ পিস মোট অর্ডার)";
+            rateTag.innerText = "🔥 পাইকারি রেট (50+ পিস মোট অর্ডার)";
             rateTag.className = "badge-wholesale";
         } else {
-            rateTag.innerText = "খুচরা রেট (মোট ১০ পিস কিনলে পাইকারি পাবেন)";
+            rateTag.innerText = "খুচরা রেট (মোট 50 পিস কিনলে পাইকারি পাবেন)";
             rateTag.className = "badge-retail";
         }
     }

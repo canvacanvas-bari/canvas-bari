@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ক্যানভাস বাড়ি - কারখানা থেকে পাইকারি ও খুচরা ক্যানভাস</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Hind Siliguri) -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Hind Siliguri', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 pb-12">
+
+    <!-- Top Notice Bar -->
+    <div class="bg-amber-500 text-white text-xs md:text-sm py-2 px-4 text-center font-semibold shadow-inner">
+        📌 <strong>বিশেষ দ্রষ্টব্য:</strong> ডেলিভারি চার্জ আগে পেমেন্ট করতে হবে। প্রয়োজনে ভিডিও কল দিয়ে প্রোডাক্ট চেক করে নিবেন! 📞 WhatsApp: 01603538204
+    </div>
+
+    <!-- Header & Brand -->
+    <header class="bg-white shadow-sm sticky top-0 z-30 border-b border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-3">
+            <div class="text-center md:text-left">
+                <h1 class="text-3xl font-bold text-indigo-900 tracking-tight">ক্যানভাস <span class="text-rose-600">বাড়ি</span></h1>
+                <p class="text-xs text-gray-500">কারখানা থেকে সরাসরি পাইকারি ও খুচরা ক্যানভাস সরবরাহ</p>
+            </div>
+            <!-- Wholesale Highlight Button -->
+            <a href="https://wa.me/8801603538204?text=হ্যালো,%20আমি%20পাইকারি%20ক্যানভাস%20সম্পর্কে%20কথা%20বলতে%20চাই।" 
+               target="_blank" 
+               class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-5 rounded-full shadow-lg transition flex items-center gap-2 text-sm">
+                <i class="fa-brands fa-whatsapp text-lg"></i> পাইকারি রেটের জন্য হোয়াটসঅ্যাপে কথা বলুন
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-6">
+
+        <!-- Special Offers Banner -->
+        <div class="bg-gradient-to-r from-rose-500 to-indigo-700 text-white rounded-2xl p-6 mb-8 shadow-md">
+            <h2 class="text-xl md:text-2xl font-bold text-center mb-4"><i class="fa-solid fa-gift"></i> আমাদের স্পেশাল ফ্রি গিফট অফার!</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20 text-center">
+                    <span class="bg-yellow-400 text-gray-900 font-bold px-3 py-1 rounded-full text-xs uppercase">অফার ১</span>
+                    <p class="text-lg font-semibold mt-2">২,০০০ টাকার ক্যানভাস কিনলে</p>
+                    <p class="text-xl font-bold text-yellow-300">৬ ইঞ্চি ক্যানভাস ৬ পিস একদম ফ্রি! 🎉</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20 text-center">
+                    <span class="bg-yellow-400 text-gray-900 font-bold px-3 py-1 rounded-full text-xs uppercase">অফার ২</span>
+                    <p class="text-lg font-semibold mt-2">৩,০০০ টাকার ক্যানভাস কিনলে</p>
+                    <p class="text-xl font-bold text-yellow-300">৮ ইঞ্চি ক্যানভাস ৬ পিস একদম ফ্রি! 🎉</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="mb-6 overflow-x-auto">
+            <div id="categoryTabs" class="flex gap-2 border-b border-gray-200 pb-2 min-w-max">
+                <!-- Dynamically populated categories -->
+            </div>
+        </div>
+
+        <!-- Product Grid & Selection -->
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+            <!-- Dynamically populated size items -->
+        </div>
+
+        <!-- Order Summary & Customer Details Form -->
+        <div class="bg-white rounded-2xl p-6 shadow-md border border-gray-100 max-w-2xl mx-auto">
+            <h3 class="text-xl font-bold text-gray-900 mb-4 pb-2 border-b flex items-center gap-2">
+                <i class="fa-solid fa-cart-flatbed text-indigo-600"></i> আপনার অর্ডার সংক্ষেপ ও নাম-ঠিকানা
+            </h3>
+
+            <!-- Selected Canvas Summary -->
+            <div id="orderSummaryList" class="bg-gray-50 rounded-lg p-4 mb-4 text-sm text-gray-700 min-h-[60px]">
+                <p class="text-gray-400 italic">এখনো কোনো ক্যানভাস সাইজ সিলেক্ট করা হয়নি। উপর থেকে আপনার প্রয়োজনীয় সাইজ ও পিস সিলেক্ট করুন।</p>
+            </div>
+
+            <!-- Total Price Display -->
+            <div class="flex justify-between items-center bg-indigo-50 p-4 rounded-xl mb-6">
+                <span class="font-bold text-gray-700">মোট আনুমানিক মূল্য:</span>
+                <span id="totalPrice" class="text-2xl font-bold text-indigo-900">৳ ০</span>
+            </div>
+
+            <!-- Form Inputs -->
+            <form id="whatsappOrderForm" onsubmit="sendWhatsAppOrder(event)" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">আপনার নাম *</label>
+                    <input type="text" id="custName" required placeholder="আপনার পুরো নাম লিখুন" 
+                           class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">মোবাইল নম্বর *</label>
+                    <input type="tel" id="custPhone" required placeholder="017XXXXXXXX" 
+                           class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">সম্পূর্ণ ডেলিভারি ঠিকানা *</label>
+                    <textarea id="custAddress" required rows="2" placeholder="জেলা, থানা, এলাকা এবং বাসা নম্বর লিখুন" 
+                              class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">অতিরিক্ত নোট / কাস্টম রিকোয়েস্ট (ঐচ্ছিক)</label>
+                    <input type="text" id="custNote" placeholder="বিশেষ কোনো চাওয়া থাকলে লিখুন" 
+                           class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                </div>
+
+                <button type="submit" 
+                        class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-lg font-bold py-3.5 rounded-xl shadow-lg transition flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i> হোয়াটসঅ্যাপে অর্ডার কনফার্ম করুন
+                </button>
+            </form>
+        </div>
+
+    </main>
+
+    <script>
+        // Data Structure matching your Google Sheet
+        const canvasCategories = [
+            {
+                id: "square",
+                name: "চারকোনা ক্যানভাস (Flat)",
+                items: [
+                    { size: "4/4", price: 30 }, { size: "5/5", price: 30 }, { size: "6/6", price: 30 },
+                    { size: "4/6", price: 30 }, { size: "6/8", price: 35 }, { size: "6/10", price: 35 },
+                    { size: "6/12", price: 40 }, { size: "8/8", price: 40 }, { size: "8/10", price: 45 },
+                    { size: "8/12", price: 45 }, { size: "8/16", price: 50 }, { size: "10/10", price: 45 },
+                    { size: "10/12", price: 50 }, { size: "10/14", price: 60 }, { size: "12/12", price: 60 },
+                    { size: "12/14", price: 60 }, { size: "12/16", price: 70 }, { size: "12/18", price: 70 },
+                    { size: "12/20", price: 80 }, { size: "12/24", price: 100 }, { size: "16/20", price: 100 },
+                    { size: "16/24", price: 120 }, { size: "18/24", price: 140 }, { size: "20/24", price: 150 },
+                    { size: "20/30", price: 200 }, { size: "24/30", price: 220 }, { size: "24/36", price: 280 },
+                    { size: "30/36", price: 300 }
+                ]
+            },
+            {
+                id: "round",
+                name: "রাউন্ড ক্যানভাস",
+                items: [
+                    { size: "4/4", price: 40 }, { size: "6/6", price: 50 },
+                    { size: "8/8", price: 60 }, { size: "10/10", price: 70 }, { size: "12/12", price: 80 }
+                ]
+            },
+            {
+                id: "hexagon",
+                name: "হেক্সাগন (৬ কর্নার)",
+                items: [
+                    { size: "8/8", price: 80 }, { size: "10/10", price: 100 }, { size: "12/12", price: 120 }
+                ]
+            },
+            {
+                id: "triangle",
+                name: "ট্রায়াঙ্গেল (৩ কর্নার)",
+                items: [
+                    { size: "8/8", price: 70 }, { size: "10/10", price: 80 }, { size: "12/12", price: 100 }
+                ]
+            },
+            {
+                id: "box",
+                name: "বক্স ক্যানভাস",
+                items: [
+                    { size: "8/8", price: 100 }, { size: "8/10", price: 120 }, { size: "10/10", price: 130 },
+                    { size: "10/12", price: 140 }, { size: "12/12", price: 150 }, { size: "12/16", price: 180 }
+                ]
+            }
+        ];
+
+        let selectedQuantities = {};
+        let activeCatId = "square";
+
+        function init() {
+            renderTabs();
+            renderProducts();
+        }
+
+        function renderTabs() {
+            const tabsContainer = document.getElementById("categoryTabs");
+            tabsContainer.innerHTML = canvasCategories.map(cat => `
+                <button onclick="switchCategory('${cat.id}')" 
+                        class="px-4 py-2 rounded-lg font-semibold text-sm transition whitespace-nowrap ${cat.id === activeCatId ? 'bg-indigo-600 text-white shadow' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}">
+                    ${cat.name}
+                </button>
+            `).join('');
+        }
+
+        function switchCategory(catId) {
+            activeCatId = catId;
+            renderTabs();
+            renderProducts();
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById("productGrid");
+            const category = canvasCategories.find(c => c.id === activeCatId);
+
+            grid.innerHTML = category.items.map(item => {
+                const itemKey = `${category.id}_${item.size}`;
+                const qty = selectedQuantities[itemKey] || 0;
+
+                return `
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 flex justify-between items-center shadow-sm hover:shadow transition">
+                        <div>
+                            <p class="font-bold text-gray-800 text-lg">সাইজ: ${item.size} ইঞ্চি</p>
+                            <p class="text-sm font-semibold text-indigo-600">রেট: ৳ ${item.price} / পিস</p>
+                        </div>
+                        <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden bg-gray-50">
+                            <button onclick="updateQty('${itemKey}', -1)" class="px-3 py-1.5 bg-gray-200 hover:bg-gray-300 font-bold">-</button>
+                            <input type="number" min="0" value="${qty}" onchange="setQty('${itemKey}', this.value)" 
+                                   class="w-12 text-center bg-transparent font-bold text-sm focus:outline-none">
+                            <button onclick="updateQty('${itemKey}', 1)" class="px-3 py-1.5 bg-gray-200 hover:bg-gray-300 font-bold">+</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateQty(key, delta) {
+            const current = selectedQuantities[key] || 0;
+            const updated = Math.max(0, current + delta);
+            if(updated === 0) delete selectedQuantities[key];
+            else selectedQuantities[key] = updated;
+
+            renderProducts();
+            calculateTotal();
+        }
+
+        function setQty(key, val) {
+            const qty = Math.max(0, parseInt(val) || 0);
+            if(qty === 0) delete selectedQuantities[key];
+            else selectedQuantities[key] = qty;
+
+            renderProducts();
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            let total = 0;
+            let summaryHTML = "<ul class='space-y-1'>";
+
+            const keys = Object.keys(selectedQuantities);
+            if(keys.length === 0) {
+                document.getElementById("orderSummaryList").innerHTML = '<p class="text-gray-400 italic">এখনো কোনো ক্যানভাস সাইজ সিলেক্ট করা হয়নি। উপর থেকে আপনার প্রয়োজনীয় সাইজ ও পিস সিলেক্ট করুন।</p>';
+                document.getElementById("totalPrice").innerText = "৳ ০";
+                return;
+            }
+
+            keys.forEach(key => {
+                const [catId, size] = key.split('_');
+                const category = canvasCategories.find(c => c.id === catId);
+                const item = category.items.find(i => i.size === size);
+                const qty = selectedQuantities[key];
+                const subtotal = item.price * qty;
+                total += subtotal;
+
+                summaryHTML += `
+                    <li class="flex justify-between border-b border-gray-100 pb-1">
+                        <span>• ${category.name} (${size} ইঞ্চি) x ${qty} পিস</span>
+                        <span class="font-semibold">৳ ${subtotal}</span>
+                    </li>
+                `;
+            });
+
+            summaryHTML += "</ul>";
+            document.getElementById("orderSummaryList").innerHTML = summaryHTML;
+            document.getElementById("totalPrice").innerText = `৳ ${total}`;
+        }
+
+        function sendWhatsAppOrder(e) {
+            e.preventDefault();
+            const keys = Object.keys(selectedQuantities);
+            if(keys.length === 0) {
+                alert("অনুগ্রহ করে অন্তত একটি ক্যানভাসের সাইজ ও সংখ্যা সিলেক্ট করুন।");
+                return;
+            }
+
+            const name = document.getElementById("custName").value.trim();
+            const phone = document.getElementById("custPhone").value.trim();
+            const address = document.getElementById("custAddress").value.trim();
+            const note = document.getElementById("custNote").value.trim();
+
+            let message = `🛒 *নতুন ক্যানভাস অর্ডার (ক্যানভাস বাড়ি)*\n\n`;
+            message += `👤 *নাম:* ${name}\n`;
+            message += `📞 *মোবাইল:* ${phone}\n`;
+            message += `📍 *ঠিকানা:* ${address}\n`;
+            if(note) message += `📝 *নোট:* ${note}\n`;
+            message += `\n📦 *অর্ডার করা পণ্যসমূহ:*\n`;
+
+            let total = 0;
+            keys.forEach(key => {
+                const [catId, size] = key.split('_');
+                const category = canvasCategories.find(c => c.id === catId);
+                const item = category.items.find(i => i.size === size);
+                const qty = selectedQuantities[key];
+                const subtotal = item.price * qty;
+                total += subtotal;
+
+                message += `- ${category.name} (${size}"): ${qty} পিস x ৳${item.price} = ৳${subtotal}\n`;
+            });
+
+            message += `\n💰 *মোট আনুমানিক মূল্য:* ৳ ${total}\n`;
+            message += `📌 *শর্তাবলি সম্মত:* ডেলিভারি চার্জ অগ্রিম পেমেন্ট করা হবে।\n`;
+
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappURL = `https://wa.me/8801603538204?text=${encodedMessage}`;
+
+            window.open(whatsappURL, '_blank');
+        }
+
+        init();
+    </script>
+</body>
+</html>
